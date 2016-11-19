@@ -1,0 +1,10 @@
+Plan
+
+First version
+Google Calendar -> Find empty slot for weekend (Sat, Sun).
+Skyscanner -> From user location (known or get location from calendar) -> 
+  Find outbound filght on Sat (or Friday evening?) and return on Sun + Hotel ->
+  propose this to the user.
+Webapp -> Log in with Google Calendar -> Get notification when we have a trip ->
+  The server checks from time to time for new trips.
+
