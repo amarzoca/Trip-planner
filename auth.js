@@ -34,26 +34,23 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var oauth2Client;
 
-// If modifying these scopes, delete your previously saved credentials
-// at ~/.credentials/calendar-nodejs-quickstart.json
+
 var SCOPES = ['https://www.googleapis.com/auth/calendar'];
-//var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-  //  process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_DIR = './';
 var TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
 
 
 
+
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   if (err) {
-    console.log('Error loading client secret file: ' + err);
+    console.log('Add a client_secret.json file which contains your Google API credentials: ' + err);
     return;
   }
   // Authorize a client with the loaded credentials, then call the
   // Google Calendar API.
-  console.log("in findauthlink");
   var credentials = JSON.parse(content);
-  var clientSecret = credentials.installed.client_secret;
+  var clientSecret = credentials.installed.client_secret; 
   var clientId = credentials.installed.client_id;
   var redirectUrl = "http://localhost:3000/success";
   var auth = new googleAuth();
