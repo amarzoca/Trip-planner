@@ -55,7 +55,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   var credentials = JSON.parse(content);
   var clientSecret = credentials.installed.client_secret;
   var clientId = credentials.installed.client_id;
-  var redirectUrl = credentials.installed.redirect_uris[1];
+  var redirectUrl = "http://localhost:3000/success";
   var auth = new googleAuth();
   oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 });
