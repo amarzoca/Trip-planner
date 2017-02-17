@@ -26,10 +26,23 @@ app.get('/', function(req, res) {
 
 
 // Get trips.
-var callback = function(response) {}
+var callback = function(response) { 
+  console.log(response.data) 
+  if(response.data.length !== 0)
+    best = response.data[0]
+
+  if(response.data.length > 1 && response.data[1].price < best.price)
+    best = response.data[1]
+
+  if(response.data.length > 2 && response.data[2].price < best.price)
+    best = response.data[2]
+
+  // Make calendar event for best.
+}
 var flow = new Flow()
 flow.getTrips([{departure_date: '2016-11-26', return_date: '2016-11-27'},
-              {departure_date: '2016-12-03', return_date: '2016-12-04'}], callback)
+  {departure_date: '2016-12-10', return_date: '2016-12-11'},
+  {departure_date: '2016-12-17', return_date: '2016-12-18'}], callback)
 
 
 // s.calendar('DFWA', 'LHR');

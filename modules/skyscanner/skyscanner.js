@@ -21,6 +21,65 @@ module.exports = function(params) {
 
   //
   // Interface.
+  // Get details for accommodation.
+  this.getAccommodationPrice = function(id, dates, callback) {
+    this.getSessionUrlAccommodation(id, dates, function(response) {
+      if(response.error) {
+        callback(response)
+      } else {
+        var body = JSON.parse(response.body)
+        // console.log(body)
+        callback({ error: false, data: body })
+      }
+    })
+  }
+
+  // Get session url for airplanes.
+  this.getSessionUrlAccommodation = function(id, dates, callback) {
+    // http://partners.api.skyscanner.net/apiservices/hotels/liveprices/v2/
+    // {market}/{currency}/{locale}/{entityid}/{checkindate}/{checkoutdate}/
+    // {guests}/{rooms}?apiKey={apiKey}[&pageSize={pageSize}][&imageLimit=
+    // {imageLimit}]
+
+    var url = 'http://partners.api.skyscanner.net/apiservices/hotels/liveprices/v2/' +
+      this.market + '/' + this.currency + '/' + this.language + '/' + id + '/' +
+      dates.departure_date + '/' + dates.return_date + '/' + '1/1' +
+      '?apikey=' + secret_key
+  
+    console.log(url)
+
+    // Make post.
+    request(url, function (error, response, body) {
+      if (error) {
+          callback({ error: true, error_message: error })
+      } else {
+        callback({ error: false, session_url: response.headers.location, body: body })
+      }
+    })
+  }
+        
+  // Get list of hotels.
+  this.getAccommodationsByDateAndLocation = function(location, callback) {
+    // http://partners.api.skyscanner.net/apiservices/hotels/autosuggest/v2/
+    // {market}/{currency}/{locale}/{query}?apikey={apikey}
+
+    var url = 'http://partners.api.skyscanner.net/apiservices/hotels/autosuggest/v2/' +
+      this.market + '/' + this.currency + '/' + this.language + '/' + location + 
+      '?apikey=' + api_key
+
+    console.log(url)
+
+    // Make the request.
+    request(url, function (error, response, body) {
+      if (!error) {
+        var data = JSON.parse(body);
+        callback({ error: false, data: data })
+      } else {
+          callback({ error: true, error_message: error })
+      }
+    })
+  }
+
   // Get a list of cheapest quotes.
   this.destinationsCheapest = function(params, callback) {
     // Example request.

@@ -2,12 +2,54 @@
 
 <head>
 	<title>Trippin</title>
-	<script>
-		console.log("hi");
-	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="external/font">
+    <link rel="stylesheet" href="external/material.indigo-pink.min.css">
+    <script src="external/material.min.js"></script>
+    <script src="external/socket.io-1.4.5.js"></script>
+    <script src="external/jquery-3.1.1.min.js"></script>
 </head>
 
 <body>
+
+    <!-- Page -->
+    <div id = 'content' class = 'mdl-layout__container'>
+
+      <!-- Simple MDL Progress Bar -->
+      <div id="p1" class="mdl-progress mdl-js-progress" style = 'width: 510px; margin: auto; margin-top: 40px'></div>
+      
+
+
+      <h1 style = 'width: 1000px; margin: auto; margin-top: 150px'>You are now subscribed to the service.</h1>
+    </div>
+
+
+    <script>
+      var socket = io();
+      socket.on('results', function(response) {
+
+        $('#content').html(response)
+      })
+
+      socket.on('progress', function(response) {
+        document.querySelector('#p1').MaterialProgress.setProgress(response);
+        
+      })
+
+     socket.on('notification', function(response) {
+      var notification_container = document.querySelector('#notification-container')
+
+      notification_container.MaterialSnackbar.showSnackbar({ message: response })
+    })
+  
+    </script>
+
+      <!-- Notification container -->
+      <div id="notification-container" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+    </div>
 
 </body>
 </html>
